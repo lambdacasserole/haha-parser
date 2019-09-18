@@ -1,3 +1,5 @@
+package com.sauljohnson.haha.parser;
+
 public enum TokenType {
     PUNCTUATOR,
     AXIOM,

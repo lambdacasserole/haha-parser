@@ -1,3 +1,5 @@
+package com.sauljohnson.haha.parser;
+
 public class Token {
     private String text;
 

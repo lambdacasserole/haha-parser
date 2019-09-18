@@ -1,9 +1,14 @@
+package com.sauljohnson.haha.parser;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 
 public class HahaTokenizer implements Tokenizer {
 
+    /**
+     * Contains token templates for all token types recognized by the tokenizer.
+     */
     private static final TokenTemplate[] tokenTemplates = new TokenTemplate[] {
             // Ignore comments.
             new TokenTemplate("//.+", TokenType.LINE_COMMENT, true),
@@ -65,6 +70,8 @@ public class HahaTokenizer implements Tokenizer {
     };
 
     public Token[] tokenize(String source) {
+
+        // We're going to return an array of tokens, build it here.
         List<Token> tokens = new LinkedList<Token>();
 
         // Tokenize input.
@@ -78,16 +85,13 @@ public class HahaTokenizer implements Tokenizer {
                 Matcher matcher = tokenTemplate.getPattern().matcher(remaining);
                 if (matcher.find() && matcher.start() == 0)
                 {
-                    System.out.println("MATCHED");
-
                     // Add token of matching type.
-                    // TODO: Column/line position.
                     if (!tokenTemplate.isIgnored()) {
                         tokens.add(new Token(matcher.group(), tokenTemplate.getType()));
                     }
 
                     // Trim string from beginning of source.
-                    remaining = tokenTemplate.getPattern().matcher(remaining).replaceFirst("");
+                    remaining = matcher.replaceFirst("");
                     matches = true;
                     break;
                 }

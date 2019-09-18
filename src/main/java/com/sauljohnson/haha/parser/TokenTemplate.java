@@ -1,3 +1,5 @@
+package com.sauljohnson.haha.parser;
+
 import java.util.regex.Pattern;
 
 public class TokenTemplate {
