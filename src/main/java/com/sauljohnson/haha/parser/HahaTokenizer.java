@@ -48,7 +48,7 @@ public class HahaTokenizer implements Tokenizer {
             new TokenTemplate(">=|≥", TokenType.GREATER_THAN_OR_EQUAL_TO), // Greater than or equal to 2 ways.
             new TokenTemplate("⇔|↔|<\\->", TokenType.IFF), // If and only if 3 ways.
             new TokenTemplate("→|⇒|\\->", TokenType.IMPLICATION), // Implication 3 ways.
-            new TokenTemplate("=", TokenType.EQUALITY),
+            new TokenTemplate("=", TokenType.EQUALITY), // TODO: Greedy for punctuator?
             new TokenTemplate("<", TokenType.LESS_THAN),
             new TokenTemplate(">", TokenType.GREATER_THAN),
             new TokenTemplate("/\\\\|∧|\\band\\b", TokenType.CONJUNCTION), // Conjunction 3 ways.

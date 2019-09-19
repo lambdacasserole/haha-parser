@@ -1,5 +1,8 @@
 package com.sauljohnson.haha.parser;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class TokenStream {
     private Token[] tokens;
 
@@ -19,8 +22,21 @@ public class TokenStream {
     }
 
     public void discardLeadingPunctuators() {
-        while (peek().getType() == TokenType.PUNCTUATOR) {
+        while (peek() != null && peek().getType() == TokenType.PUNCTUATOR) {
             read();
         }
+    }
+
+    public Token[] readUntil(TokenType type)  {
+        // We're going to return an array of tokens, build it here.
+        List<Token> tokens = new LinkedList<Token>();
+
+        // Read until we hit a punctuator.
+        Token buffer;
+        while ((buffer = read()).getType() != type) {
+            tokens.add(buffer);
+        }
+
+        return tokens.toArray(new Token[] {});
     }
 }
