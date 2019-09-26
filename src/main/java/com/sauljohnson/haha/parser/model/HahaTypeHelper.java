@@ -6,7 +6,7 @@ package com.sauljohnson.haha.parser.model;
  * @since 19/09/19
  * @author Saul Johnson <saul.a.johnson@gmail.com>
  */
-@SuppressWarnings({"WeakerAccess", "unused"}) // API class.
+@SuppressWarnings({"unused"}) // API class.
 public class HahaTypeHelper {
 
     /**
@@ -16,6 +16,8 @@ public class HahaTypeHelper {
      * @return          the enum member
      */
     public static HahaType parse(String rawType) {
+
+        // TODO: Support for array types!
 
         // Parse type.
         HahaType type = HahaType.UNKNOWN;

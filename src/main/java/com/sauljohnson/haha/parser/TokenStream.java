@@ -1,5 +1,6 @@
 package com.sauljohnson.haha.parser;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,6 +35,22 @@ public class TokenStream {
         // Read until we hit a punctuator.
         Token buffer;
         while ((buffer = read()).getType() != type) {
+            tokens.add(buffer);
+        }
+
+        return tokens.toArray(new Token[] {});
+    }
+
+    public Token[] readUntilAnyOf(TokenType[] types) {
+        // We're going to return an array of tokens, build it here.
+        List<Token> tokens = new LinkedList<Token>();
+
+        List<TokenType>  gg = new LinkedList<TokenType>();
+        Collections.addAll(gg, types);
+
+        // Read until we hit a punctuator.
+        Token buffer;
+        while (!gg.contains((buffer = read()).getType())) {
             tokens.add(buffer);
         }
 

@@ -10,7 +10,7 @@ import com.sauljohnson.haha.parser.TokenType;
  * @since 18/09/19
  * @author Saul Johnson <saul.a.johnson@gmail.com>
  */
-@SuppressWarnings({"WeakerAccess", "unused"}) // API class.
+@SuppressWarnings({"unused"}) // API class.
 public class Axiom {
 
     private Token[] tokens;

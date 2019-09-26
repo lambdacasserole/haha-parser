@@ -1,7 +1,4 @@
-import com.sauljohnson.haha.parser.HahaTokenizer;
-import com.sauljohnson.haha.parser.Token;
-import com.sauljohnson.haha.parser.TokenStream;
-import com.sauljohnson.haha.parser.Tokenizer;
+import com.sauljohnson.haha.parser.*;
 import com.sauljohnson.haha.parser.model.Program;
 import org.apache.commons.io.FileUtils;
 
@@ -17,6 +14,8 @@ public class Main {
             Program ppp = Program.parse(new TokenStream(ssg));
             System.out.println(str);
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TokenizationException e) {
             e.printStackTrace();
         }
     }

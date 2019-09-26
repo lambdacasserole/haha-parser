@@ -4,6 +4,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 
+/**
+ * Represents a service capable of transforming HAHA source code into a token array.
+ *
+ * @since 19/09/19
+ * @author Saul Johnson <saul.a.johnson@gmail.com>
+ */
 public class HahaTokenizer implements Tokenizer {
 
     /**
@@ -69,7 +75,51 @@ public class HahaTokenizer implements Tokenizer {
             new TokenTemplate("\\b[a-zA-Z_]\\w*\\b", TokenType.IDENTIFIER)
     };
 
-    public Token[] tokenize(String source) {
+    /**
+     * Counts the number of newlines in a string.
+     *
+     * @param source    the string to count the newlines in
+     * @return          the number of newlines in the string
+     */
+    private static int countNewlines(String source) {
+        int count = 0;
+        for (int i = 0; i < source.length(); i++) {
+            if (source.charAt(i) == '\n'){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Gets the current line position in the source.
+     *
+     * @param source    the complete source
+     * @param remaining the source remaining to tokenize
+     * @return          the current line position in the source
+     */
+    private static int getLinePosition(String source, String remaining)
+    {
+        return countNewlines(source) - countNewlines(remaining) + 1;
+    }
+
+    /**
+     * Gets the current column position in the source.
+     *
+     * @param source    the complete source
+     * @param remaining the source remaining to tokenize
+     * @return          the current column position in the source
+     */
+    private static int getColumnPosition(String source, String remaining)
+    {
+        String processed = source.substring(0, source.length() - remaining.length());
+        return processed.length() - processed.lastIndexOf('\n');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public Token[] tokenize(String source) throws TokenizationException {
 
         // We're going to return an array of tokens, build it here.
         List<Token> tokens = new LinkedList<Token>();
@@ -97,19 +147,15 @@ public class HahaTokenizer implements Tokenizer {
                 }
             }
 
-            if (!matches) {
-                System.out.println("!");
-                break;
+            // Unexpected character encountered.
+            if (!matches)
+            {
+                int line = getLinePosition(source, remaining);
+                int column = getColumnPosition(source, remaining);
+                char character = remaining.charAt(0);
+                throw new TokenizationException("Unexpected character '" + character + "' at line "+ line + " column" +
+                        " " + column + ".", line, column);
             }
-//            // Unexpected character encountered.
-//            if (!matches)
-//            {
-//                var line = GetLinePosition(source, remaining);
-//                var column = GetColumnPosition(source, remaining);
-//                var character = remaining.First();
-//                throw new TokenizationException($"Unexpected character '{character}' at line {line} column" +
-//                        $" {column}.", line, column);
-//            }
         }
 
         return tokens.toArray(new Token[] {});
