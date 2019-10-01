@@ -71,14 +71,10 @@ public class Program {
         List<Axiom> axiomsList = new LinkedList<Axiom>();
         List<Predicate> predicatesList = new LinkedList<Predicate>();
 
-        // Move past any initial punctuators.
-        tokenStream.discardLeadingPunctuators();
-
         // Read in any top-level elements.
         Token token;
         while ((token = tokenStream.peek()) != null) {
             System.out.println("Read token: " + token.getText());
-            tokenStream.discardLeadingPunctuators(); // Move past any leftover punctuators.
             switch(token.getType()) {
                 case FUNCTION:
                     functionsList.add(Function.parse(tokenStream));

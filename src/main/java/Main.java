@@ -11,7 +11,8 @@ public class Main {
             String str = FileUtils.readFileToString(new File(""));
             Tokenizer ss= new HahaTokenizer();
             Token[] ssg = ss.tokenize(str);
-            Program ppp = Program.parse(new TokenStream(ssg));
+            TokenStreamTransformer streamTransformer = new ConsecutiveTokenFilter(TokenType.PUNCTUATOR);
+            Program ppp = Program.parse(streamTransformer.transform(new TokenStream(ssg)));
             System.out.println(str);
         } catch (IOException e) {
             e.printStackTrace();
