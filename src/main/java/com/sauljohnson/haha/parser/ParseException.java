@@ -21,7 +21,7 @@ public class ParseException extends Exception {
      * @param column    the column at which the exception was raised
      */
     public ParseException(String s, int line, int column) {
-        super(s);
+        super(s + " at line " + line + " column " + column + ".");
         this.line = line;
         this.column = column;
     }

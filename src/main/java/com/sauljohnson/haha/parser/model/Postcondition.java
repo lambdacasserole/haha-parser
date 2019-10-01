@@ -44,7 +44,7 @@ public class Postcondition {
 
         // Create and return postcondition.
         Postcondition output = new Postcondition();
-        output.tokens = tokenStream.readUntil(TokenType.PUNCTUATOR);
+        output.tokens = tokenStream.readPast(TokenType.PUNCTUATOR);
         return output;
     }
 }

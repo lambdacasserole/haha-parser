@@ -60,6 +60,9 @@ public class Variable {
         // Extract type.
         HahaType type = HahaType.parse(tokenStream);
 
+        // Discard punctuator.
+        tokenStream.readExpecting(TokenType.PUNCTUATOR);
+
         // Create and return variable.
         Variable output = new Variable();
         output.identifier = identifier;

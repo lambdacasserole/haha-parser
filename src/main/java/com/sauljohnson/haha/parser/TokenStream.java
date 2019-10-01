@@ -59,7 +59,7 @@ public class TokenStream {
             }
 
             // Throw exception up the stack.
-            throw new ParseException("Parse error, unexpected end of token stream.", line, col);
+            throw new ParseException("Parse error, unexpected end of token stream", line, col);
         }
         return buffer;
     }
@@ -165,6 +165,14 @@ public class TokenStream {
         return readExpectingOneOf(new TokenType[] {type});
     }
 
+    public Token[] readExpecting(TokenType[] types) throws ParseException {
+        List<Token> tokensList = new LinkedList<Token>();
+        for(TokenType type : types) {
+            tokensList.add(readExpecting(type));
+        }
+        return tokensList.toArray(new Token[] {});
+    }
+
     /**
      * Reads from the stream until a token with a type in a list of token types is encountered, including the stop
      * token.
@@ -225,6 +233,7 @@ public class TokenStream {
         while (!stopTokenTypes.contains(buffer.getType())) {
             tokens.add(buffer);
             read();
+            buffer = peek();
         }
 
         return tokens.toArray(new Token[] {});

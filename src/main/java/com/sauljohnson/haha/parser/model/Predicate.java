@@ -44,7 +44,7 @@ public class Predicate {
 
         // Create and return predicate.
         Predicate output = new Predicate();
-        output.tokens = tokenStream.readUntil(TokenType.PUNCTUATOR);
+        output.tokens = tokenStream.readPast(TokenType.PUNCTUATOR);
         return output;
     }
 }

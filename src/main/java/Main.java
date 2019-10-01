@@ -12,6 +12,7 @@ public class Main {
             Tokenizer ss= new HahaTokenizer();
             Token[] ssg = ss.tokenize(str);
             TokenStreamTransformer streamTransformer = new ConsecutiveTokenFilter(TokenType.PUNCTUATOR);
+            TokenStream ssd = streamTransformer.transform(new TokenStream(ssg));
             Program ppp = Program.parse(streamTransformer.transform(new TokenStream(ssg)));
             System.out.println(str);
         } catch (IOException e) {

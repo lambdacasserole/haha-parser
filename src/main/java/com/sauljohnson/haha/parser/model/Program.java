@@ -3,6 +3,7 @@ package com.sauljohnson.haha.parser.model;
 import com.sauljohnson.haha.parser.ParseException;
 import com.sauljohnson.haha.parser.Token;
 import com.sauljohnson.haha.parser.TokenStream;
+import com.sauljohnson.haha.parser.TokenType;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -71,11 +72,17 @@ public class Program {
         List<Axiom> axiomsList = new LinkedList<Axiom>();
         List<Predicate> predicatesList = new LinkedList<Predicate>();
 
+        // We need to get rid of any leading punctuators (newlines).
+        tokenStream.discardLeading(TokenType.PUNCTUATOR);
+
         // Read in any top-level elements.
-        Token token;
-        while ((token = tokenStream.tryPeek()) != null) {
-            System.out.println("Read token: " + token.getText());
-            switch(token.getType()) {
+        while (!tokenStream.isTerminal()) {
+            TokenType[] permittedTokenTypes = new TokenType[] {
+                    TokenType.FUNCTION,
+                    TokenType.AXIOM,
+                    TokenType.PREDICATE};
+            Token buffer = tokenStream.peekExpectingOneOf(permittedTokenTypes);
+            switch(buffer.getType()) {
                 case FUNCTION:
                     functionsList.add(Function.parse(tokenStream));
                     break;
@@ -84,9 +91,6 @@ public class Program {
                     break;
                 case PREDICATE:
                     predicatesList.add(Predicate.parse(tokenStream));
-                    break;
-                default:
-                    tokenStream.read(); // TODO: This should throw an error.
                     break;
             }
         }

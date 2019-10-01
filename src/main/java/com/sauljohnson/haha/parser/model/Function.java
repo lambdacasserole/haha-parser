@@ -27,7 +27,7 @@ public class Function {
 
     private Variable[] variables;
 
-    private Token[][] statements;
+    private Statement statement;
 
     private HahaType returnType;
 
@@ -43,7 +43,7 @@ public class Function {
     /**
      * Gets any preconditions associated with the function.
      *
-     * @return  the identifier
+     * @return  the preconditions
      */
     public Precondition[] getPreconditions() {
         return preconditions;
@@ -52,7 +52,7 @@ public class Function {
     /**
      * Gets any postconditions associated with the function.
      *
-     * @return  the identifier
+     * @return  the postconditions
      */
     public Postcondition[] getPostconditions() {
         return postconditions;
@@ -61,7 +61,7 @@ public class Function {
     /**
      * Gets any arguments to the function.
      *
-     * @return  the identifier
+     * @return  the arguments
      */
     public Argument[] getArguments() {
         return arguments;
@@ -70,25 +70,25 @@ public class Function {
     /**
      * Gets any variables used within the function.
      *
-     * @return  the identifier
+     * @return  the variables
      */
     public Variable[] getVariables() {
         return variables;
     }
 
     /**
-     * Gets any variables used within the function.
+     * Gets the function statement.
      *
-     * @return  the identifier
+     * @return  the statement
      */
-    public Token[][] getStatements() {
-        return statements;
+    public Statement getStatement() {
+        return statement;
     }
 
     /**
      * Gets the return type of the function.
      *
-     * @return  the identifier
+     * @return  the return type
      */
     public HahaType getReturnType() {
         return returnType;
@@ -108,7 +108,7 @@ public class Function {
         List<Postcondition> postconditionsList = new LinkedList<Postcondition>();
         List<Argument> argumentsList = new LinkedList<Argument>();
         List<Variable> variablesList = new LinkedList<Variable>();
-        List<Token[]> statementsList = new LinkedList<Token[]>();
+        Statement statement;
         HahaType returnType;
 
         // Read in function keyword.
@@ -133,15 +133,17 @@ public class Function {
         tokenStream.readExpecting(TokenType.CLOSE_PARENTHESIS);
         tokenStream.readExpecting(TokenType.COLON);
 
-        // Parse return type.
+        // Parse return type and discard punctuator.
         returnType = HahaType.parse(tokenStream);
+        tokenStream.readExpecting(TokenType.PUNCTUATOR);
 
         // Read preconditions, postconditions and variables.
         TokenType[] permittedTokenTypes = new TokenType[] {
                 TokenType.PRECONDITION,
                 TokenType.POSTCONDITION,
                 TokenType.VAR,
-                TokenType.BLOCK_BEGIN};
+                TokenType.BLOCK_BEGIN,
+                TokenType.IDENTIFIER};
         Token buffer;
         while ((buffer = tokenStream.peekExpectingOneOf(permittedTokenTypes)).getType() != TokenType.BLOCK_BEGIN) {
             switch(buffer.getType()) {
@@ -160,22 +162,8 @@ public class Function {
             }
         }
 
-        // We should now be at a block begin.
-        tokenStream.readExpecting(TokenType.BLOCK_BEGIN);
-
-        // Read in function body, being sensitive to blocks.
-        int level = 0; // Track nesting level.
-        do {
-            Token[] statementBuffer = tokenStream.readUntil(TokenType.PUNCTUATOR);
-            statementsList.add(statementBuffer);
-            if (statementBuffer.length > 0) {
-                if (statementBuffer[0].getType() == TokenType.BLOCK_END) {
-                    level--;
-                } else if (statementBuffer[0].getType() == TokenType.BLOCK_BEGIN) {
-                    level++;
-                }
-            }
-        } while (level > 0);
+        // Read function statement.
+        statement = Statement.parse(tokenStream);
 
         // Create and return function.
         Function output = new Function();
@@ -184,7 +172,7 @@ public class Function {
         output.postconditions = postconditionsList.toArray(new Postcondition[] {});
         output.arguments = argumentsList.toArray(new Argument[] {});
         output.variables = variablesList.toArray(new Variable[] {});
-        output.statements = statementsList.toArray(new Token[][] {});
+        output.statement = statement;
         output.returnType = returnType;
         return output;
     }

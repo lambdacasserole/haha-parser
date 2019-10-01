@@ -44,7 +44,7 @@ public class Precondition {
 
         // Create and return precondition.
         Precondition output = new Precondition();
-        output.tokens = tokenStream.readUntil(TokenType.PUNCTUATOR);
+        output.tokens = tokenStream.readPast(TokenType.PUNCTUATOR);
         return output;
     }
 }
