@@ -28,8 +28,8 @@ public class HahaTokenizer implements Tokenizer {
             new TokenTemplate("\\bfunction\\b", TokenType.FUNCTION),
             new TokenTemplate("\\baxiom\\b", TokenType.AXIOM),
             new TokenTemplate("\\bpredicate\\b", TokenType.PREDICATE),
-            new TokenTemplate("\\bprecondition\\b", TokenType.PRECONDITION),
-            new TokenTemplate("\\bpostcondition\\b", TokenType.POSTCONDITION),
+            new TokenTemplate("\\bprecondition\\b(\\r?\\n)*", TokenType.PRECONDITION), // Punctuator greedy.
+            new TokenTemplate("\\bpostcondition\\b(\\r?\\n)*", TokenType.POSTCONDITION), // Punctuator greedy.
             new TokenTemplate("\\binvariant\\b", TokenType.INVARIANT),
             new TokenTemplate("\\bARRAY\\b", TokenType.ARRAY),
             new TokenTemplate("\\bwhile\\b", TokenType.WHILE),
@@ -52,7 +52,7 @@ public class HahaTokenizer implements Tokenizer {
             new TokenTemplate(">=|≥", TokenType.GREATER_THAN_OR_EQUAL_TO), // Greater than or equal to 2 ways.
             new TokenTemplate("⇔|↔|<\\->", TokenType.IFF), // If and only if 3 ways.
             new TokenTemplate("→|⇒|\\->", TokenType.IMPLICATION), // Implication 3 ways.
-            new TokenTemplate("=", TokenType.EQUALITY), // TODO: Greedy for punctuator?
+            new TokenTemplate("=(\\r?\\n)*", TokenType.EQUALITY), // Punctuator greedy.
             new TokenTemplate("<", TokenType.LESS_THAN),
             new TokenTemplate(">", TokenType.GREATER_THAN),
             new TokenTemplate("/\\\\|∧|\\band\\b", TokenType.CONJUNCTION), // Conjunction 3 ways.
