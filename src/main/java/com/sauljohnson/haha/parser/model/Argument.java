@@ -46,8 +46,9 @@ public class Argument {
     /**
      * Reads the tokens comprising an argument from the given token stream and returns the parsed result.
      *
-     * @param tokenStream   the token stream to read from
-     * @return              the parsed result
+     * @param tokenStream       the token stream to read from
+     * @return                  the parsed result
+     * @throws ParseException   if parsing fails
      */
     public static Argument parse(TokenStream tokenStream) throws ParseException {
 
@@ -60,7 +61,7 @@ public class Argument {
         // Extract type.
         HahaType type = HahaType.parse(tokenStream);
 
-        // Create and return variable.
+        // Create and return argument.
         Argument output = new Argument();
         output.identifier = identifier;
         output.type = type;

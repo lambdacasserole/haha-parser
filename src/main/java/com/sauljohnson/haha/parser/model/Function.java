@@ -97,8 +97,9 @@ public class Function {
     /**
      * Reads the tokens comprising a function from the given token stream and returns the parsed result.
      *
-     * @param tokenStream   the token stream to read from
-     * @return              the parsed result
+     * @param tokenStream       the token stream to read from
+     * @return                  the parsed result
+     * @throws ParseException   if parsing fails
      */
     public static Function parse(TokenStream tokenStream) throws ParseException {
 

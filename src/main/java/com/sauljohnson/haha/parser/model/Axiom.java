@@ -42,9 +42,13 @@ public class Axiom {
 
         // TODO: This is very minimal, because no translation language currently requires this structure.
 
+        // Recognise leading keyword.
+        tokenStream.peekExpecting(TokenType.AXIOM);
+
         // Create and return axiom.
         Axiom output = new Axiom();
-        output.tokens = tokenStream.readPast(TokenType.PUNCTUATOR);
+        output.tokens = tokenStream.readUpTo(TokenType.PUNCTUATOR);
+        tokenStream.readExpecting(TokenType.PUNCTUATOR); // Discard punctuator.
         return output;
     }
 }

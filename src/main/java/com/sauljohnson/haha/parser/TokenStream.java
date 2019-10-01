@@ -70,7 +70,7 @@ public class TokenStream {
      *
      * @param types             the types of token to expect
      * @return                  the next token from the token stream
-     * @throws ParseException   if the end of the stream has been reached
+     * @throws ParseException   if the end of the stream has been reached or an unexpected token type appears
      */
     public Token peekExpectingOneOf(TokenType[] types) throws ParseException {
 
@@ -104,7 +104,7 @@ public class TokenStream {
      *
      * @param type              the type of token to expect
      * @return                  the next token from the token stream
-     * @throws ParseException   if the end of the stream has been reached
+     * @throws ParseException   if the end of the stream has been reached or an unexpected token type appears
      */
     public Token peekExpecting(TokenType type) throws ParseException {
         return readExpectingOneOf(new TokenType[] {type});
@@ -141,7 +141,7 @@ public class TokenStream {
      *
      * @param types             the type of token to expect
      * @return                  the next token from the token stream
-     * @throws ParseException   if the end of the stream has been reached
+     * @throws ParseException   if the end of the stream has been reached or an unexpected token type appears
      */
     public Token readExpectingOneOf(TokenType[] types) throws ParseException {
 
@@ -159,12 +159,20 @@ public class TokenStream {
      *
      * @param type              the type of token to expect
      * @return                  the next token from the token stream
-     * @throws ParseException   if the end of the stream has been reached
+     * @throws ParseException   if the end of the stream has been reached or an unexpected token type appears
      */
     public Token readExpecting(TokenType type) throws ParseException {
         return readExpectingOneOf(new TokenType[] {type});
     }
 
+    /**
+     * Reads tokens from the token stream and returns them or throws an exception if the end has been reached or any of
+     * the tokens have unexpected types.
+     *
+     * @param types             the types of token to expect
+     * @return                  the next tokens from the token stream
+     * @throws ParseException   if the end of the stream has been reached or an unexpected token type appears
+     */
     public Token[] readExpecting(TokenType[] types) throws ParseException {
         List<Token> tokensList = new LinkedList<Token>();
         for(TokenType type : types) {

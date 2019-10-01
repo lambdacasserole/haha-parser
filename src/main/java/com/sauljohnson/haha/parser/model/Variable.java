@@ -46,8 +46,9 @@ public class Variable {
     /**
      * Reads the tokens comprising a variable from the given token stream and returns the parsed result.
      *
-     * @param tokenStream   the token stream to read from
-     * @return              the parsed result
+     * @param tokenStream       the token stream to read from
+     * @return                  the parsed result
+     * @throws ParseException   if parsing fails
      */
     public static Variable parse(TokenStream tokenStream) throws ParseException {
 

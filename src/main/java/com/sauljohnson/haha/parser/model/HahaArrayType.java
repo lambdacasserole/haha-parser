@@ -25,8 +25,9 @@ public class HahaArrayType extends HahaType {
     /**
      * Reads the tokens comprising an array type from the given token stream and returns the parsed result.
      *
-     * @param tokenStream   the token stream to read from
-     * @return              the parsed result
+     * @param tokenStream       the token stream to read from
+     * @return                  the parsed result
+     * @throws ParseException   if parsing fails
      */
     public static HahaArrayType parse(TokenStream tokenStream) throws ParseException {
 

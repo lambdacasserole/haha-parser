@@ -21,8 +21,6 @@ public class HahaTokenizer implements Tokenizer {
             new TokenTemplate("/\\*([\\s\\S]*?)\\*/", TokenType.STREAM_COMMENT, true),
             // Ignore non-newline whitespace.
             new TokenTemplate("[ \\t]+", TokenType.WHITESPACE, true),
-            // LF/CRLF acts as the punctuator.
-            new TokenTemplate("(\\r?\\n)+", TokenType.PUNCTUATOR),
             // Keywords come first.
             new TokenTemplate("\\bvar\\b", TokenType.VAR),
             new TokenTemplate("\\bbegin\\b", TokenType.BLOCK_BEGIN),
@@ -72,7 +70,9 @@ public class HahaTokenizer implements Tokenizer {
             new TokenTemplate("∃|\\bexists\\b", TokenType.EXISTS),
             // Free-form identifiers and integers.
             new TokenTemplate("\\b[0-9]+\\b", TokenType.INTEGER),
-            new TokenTemplate("\\b[a-zA-Z_]\\w*\\b", TokenType.IDENTIFIER)
+            new TokenTemplate("\\b[a-zA-Z_]\\w*\\b", TokenType.IDENTIFIER),
+            // LF/CRLF acts as the punctuator.
+            new TokenTemplate("(\\r?\\n)+", TokenType.PUNCTUATOR)
     };
 
     /**

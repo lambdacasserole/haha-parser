@@ -35,8 +35,9 @@ public class Predicate {
     /**
      * Reads the tokens comprising a predicate from the given token stream and returns the parsed result.
      *
-     * @param tokenStream   the token stream to read from
-     * @return              the parsed result
+     * @param tokenStream       the token stream to read from
+     * @return                  the parsed result
+     * @throws ParseException   if parsing fails
      */
     public static Predicate parse(TokenStream tokenStream) throws ParseException {
 
@@ -44,7 +45,8 @@ public class Predicate {
 
         // Create and return predicate.
         Predicate output = new Predicate();
-        output.tokens = tokenStream.readPast(TokenType.PUNCTUATOR);
+        output.tokens = tokenStream.readUpTo(TokenType.PUNCTUATOR);
+        tokenStream.readExpecting(TokenType.PUNCTUATOR); // Discard punctuator.
         return output;
     }
 }

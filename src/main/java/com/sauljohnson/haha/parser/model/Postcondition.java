@@ -35,8 +35,9 @@ public class Postcondition {
     /**
      * Reads the tokens comprising a postcondition from the given token stream and returns the parsed result.
      *
-     * @param tokenStream   the token stream to read from
-     * @return              the parsed result
+     * @param tokenStream       the token stream to read from
+     * @return                  the parsed result
+     * @throws ParseException   if parsing fails
      */
     public static Postcondition parse(TokenStream tokenStream) throws ParseException {
 
@@ -44,7 +45,8 @@ public class Postcondition {
 
         // Create and return postcondition.
         Postcondition output = new Postcondition();
-        output.tokens = tokenStream.readPast(TokenType.PUNCTUATOR);
+        output.tokens = tokenStream.readUpTo(TokenType.PUNCTUATOR);
+        tokenStream.readExpecting(TokenType.PUNCTUATOR); // Discard punctuator.
         return output;
     }
 }

@@ -35,8 +35,9 @@ public class Precondition {
     /**
      * Reads the tokens comprising a precondition from the given token stream and returns the parsed result.
      *
-     * @param tokenStream   the token stream to read from
-     * @return              the parsed result
+     * @param tokenStream       the token stream to read from
+     * @return                  the parsed result
+     * @throws ParseException   if parsing fails
      */
     public static Precondition parse(TokenStream tokenStream) throws ParseException {
 
@@ -44,7 +45,8 @@ public class Precondition {
 
         // Create and return precondition.
         Precondition output = new Precondition();
-        output.tokens = tokenStream.readPast(TokenType.PUNCTUATOR);
+        output.tokens = tokenStream.readUpTo(TokenType.PUNCTUATOR);
+        tokenStream.readExpecting(TokenType.PUNCTUATOR); // Discard punctuator.
         return output;
     }
 }

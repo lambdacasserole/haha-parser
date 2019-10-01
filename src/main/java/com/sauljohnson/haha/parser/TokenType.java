@@ -1,5 +1,11 @@
 package com.sauljohnson.haha.parser;
 
+/**
+ * Represents a token type.
+ *
+ * @since 18/09/19
+ * @author Saul Johnson <saul.a.johnson@gmail.com>
+ */
 public enum TokenType {
     PUNCTUATOR,
     AXIOM,

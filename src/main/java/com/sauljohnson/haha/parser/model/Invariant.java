@@ -35,16 +35,18 @@ public class Invariant {
     /**
      * Reads the tokens comprising a loop invariant from the given token stream and returns the parsed result.
      *
-     * @param tokenStream   the token stream to read from
-     * @return              the parsed result
+     * @param tokenStream       the token stream to read from
+     * @return                  the parsed result
+     * @throws ParseException   if parsing fails
      */
     public static Invariant parse(TokenStream tokenStream) throws ParseException {
 
         // TODO: This is very minimal, because no translation language currently requires this structure.
 
-        // Create and return postcondition.
+        // Create and return loop invariant.
         Invariant output = new Invariant();
-        output.tokens = tokenStream.readPast(TokenType.PUNCTUATOR);
+        output.tokens = tokenStream.readUpTo(TokenType.PUNCTUATOR);
+        tokenStream.readExpecting(TokenType.PUNCTUATOR); // Discard punctuator.
         return output;
     }
 }

@@ -12,7 +12,7 @@ import com.sauljohnson.haha.parser.TokenType;
  * @author Saul Johnson <saul.a.johnson@gmail.com>
  */
 @SuppressWarnings({"unused"}) // API class.
-public class Annotation implements ProgramComponent{
+public class Annotation implements ProgramComponent {
 
     private Token[] tokens;
 
@@ -33,16 +33,24 @@ public class Annotation implements ProgramComponent{
     }
 
     /**
+     * @inheritDoc
+     */
+    public ProgramComponentType getType() {
+        return ProgramComponentType.ANNOTATION;
+    }
+
+    /**
      * Reads the tokens comprising an annotation from the given token stream and returns the parsed result.
      *
-     * @param tokenStream   the token stream to read from
-     * @return              the parsed result
+     * @param tokenStream       the token stream to read from
+     * @return                  the parsed result
+     * @throws ParseException   if parsing fails
      */
     public static Annotation parse(TokenStream tokenStream) throws ParseException {
 
         // TODO: This is very minimal, because no translation language currently requires this structure.
 
-        // Create and return postcondition.
+        // Create and return annotation.
         Annotation output = new Annotation();
         output.tokens = tokenStream.readPast(TokenType.CLOSE_BRACE); // Read to closing brace.
         tokenStream.readExpecting(TokenType.PUNCTUATOR); // Discard punctuator.
