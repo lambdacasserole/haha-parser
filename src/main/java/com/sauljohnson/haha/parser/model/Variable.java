@@ -1,8 +1,6 @@
 package com.sauljohnson.haha.parser.model;
 
-import com.sauljohnson.haha.parser.Token;
 import com.sauljohnson.haha.parser.TokenStream;
-import com.sauljohnson.haha.parser.TokenType;
 
 /**
  * Represents a variable.
@@ -22,7 +20,7 @@ public class Variable {
      */
     private Variable() {
         identifier  = null;
-        type = HahaType.UNKNOWN;
+        type = null;
     }
 
     /**
@@ -51,21 +49,15 @@ public class Variable {
      */
     public static Variable parse(TokenStream tokenStream) {
 
-        // Read program statement.
-        Token[] statement = tokenStream.readUntil(TokenType.PUNCTUATOR);
-
-        // TODO: Statement should be 3 tokens long exactly with identifier, colon and type. Punctuator? Arrays?
-
         // Extract identifier.
-        String identifier = statement[0].getText();
+        String identifier = tokenStream.read().getText();
 
         // Extract type.
-        // TODO: Array types!
-        HahaType type = HahaTypeHelper.parse(statement[2].getText());
+        HahaType type = HahaType.parse(tokenStream);
 
         // Create and return variable.
         Variable output = new Variable();
-        output.identifier  = identifier;
+        output.identifier = identifier;
         output.type = type;
         return output;
     }

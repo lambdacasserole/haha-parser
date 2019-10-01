@@ -21,7 +21,7 @@ public class Argument {
      */
     private Argument() {
         identifier  = null;
-        type = HahaType.UNKNOWN;
+        type = null;
     }
 
     /**
@@ -50,17 +50,11 @@ public class Argument {
      */
     public static Argument parse(TokenStream tokenStream) {
 
-        // Read until comma or closing parenthesis.
-        Token[] tokens = tokenStream.readUntilAnyOf(new TokenType[] {TokenType.COMMA, TokenType.CLOSE_PARENTHESIS});
-
-        // TODO: Tokens should be 3 tokens long exactly with identifier, colon and type. Punctuator? Arrays?
-
         // Extract identifier.
-        String identifier = tokens[0].getText();
+        String identifier = tokenStream.read().getText();
 
         // Extract type.
-        // TODO: Array types!
-        HahaType type = HahaTypeHelper.parse(tokens[2].getText());
+        HahaType type = HahaType.parse(tokenStream);
 
         // Create and return variable.
         Argument output = new Argument();

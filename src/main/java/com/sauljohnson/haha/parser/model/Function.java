@@ -28,7 +28,7 @@ public class Function {
 
     private Token[][] statements;
 
-    private HahaType returnType;
+    private HahaBaseType returnType;
 
     /**
      * Gets the function identifier.
@@ -89,7 +89,7 @@ public class Function {
      *
      * @return  the identifier
      */
-    public HahaType getReturnType() {
+    public HahaBaseType getReturnType() {
         return returnType;
     }
 
@@ -108,7 +108,7 @@ public class Function {
         List<Argument> argumentsList = new LinkedList<Argument>();
         List<Variable> variablesList = new LinkedList<Variable>();
         List<Token[]> statementsList = new LinkedList<Token[]>();
-        HahaType returnType;
+        HahaBaseType returnType;
 
         // Parse signature.
         Token[] signature = tokenStream.readUntil(TokenType.PUNCTUATOR);
@@ -120,7 +120,7 @@ public class Function {
             argumentsList.add(argument);
         }
         // TODO: We should just have a colon and a return type now.
-        returnType = HahaTypeHelper.parse(signature[signature.length - 1].getText()); // TODO: Hard-coded index.
+        returnType = HahaBaseTypeHelper.parse(signature[signature.length - 1].getText()); // TODO: Hard-coded index.
 
         // Read preconditions, postconditions and variables.
         Token next;
