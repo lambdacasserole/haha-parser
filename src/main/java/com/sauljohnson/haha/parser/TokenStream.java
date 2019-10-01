@@ -165,15 +165,24 @@ public class TokenStream {
         return readExpectingOneOf(new TokenType[] {type});
     }
 
-    public Token[] readUntilAnyOf(TokenType[] types) throws ParseException {
+    /**
+     * Reads from the stream until a token with a type in a list of token types is encountered, including the stop
+     * token.
+     *
+     * @param types             the token types to stop at
+     * @return                  the list of tokens read
+     * @throws ParseException   if the end of the stream is reached
+     */
+    public Token[] readPastAnyOf(TokenType[] types) throws ParseException {
 
         // We're going to return an array of tokens, build it here.
         List<Token> tokens = new LinkedList<Token>();
 
+        // Build stop token type list.
         List<TokenType> stopTokenTypes = new LinkedList<TokenType>();
         Collections.addAll(stopTokenTypes, types);
 
-        // Read until we hit a punctuator.
+        // Read until we hit a token with a type in the list, including the stop token.
         Token buffer;
         do {
             buffer = read();
@@ -183,7 +192,74 @@ public class TokenStream {
         return tokens.toArray(new Token[] {});
     }
 
-    public Token[] readUntil(TokenType type) throws ParseException {
-        return readUntilAnyOf(new TokenType[] {type});
+    /**
+     * Reads from the stream until a token with a given type is encountered, including the stop token.
+     *
+     * @param type              the token type to stop at
+     * @return                  the list of tokens read
+     * @throws ParseException   if the end of the stream is reached
+     */
+    public Token[] readPast(TokenType type) throws ParseException {
+        return readPastAnyOf(new TokenType[] {type});
+    }
+
+    /**
+     * Reads from the stream until a token with a type in a list of token types is encountered, excluding the stop
+     * token.
+     *
+     * @param types             the token types to stop at
+     * @return                  the list of tokens read
+     * @throws ParseException   if the end of the stream is reached
+     */
+    public Token[] readUpToAnyOf(TokenType[] types) throws ParseException {
+
+        // We're going to return an array of tokens, build it here.
+        List<Token> tokens = new LinkedList<Token>();
+
+        // Build stop token type list.
+        List<TokenType> stopTokenTypes = new LinkedList<TokenType>();
+        Collections.addAll(stopTokenTypes, types);
+
+        // Read until we hit a token with a type in the list, excluding the stop token.
+        Token buffer = peek();
+        while (!stopTokenTypes.contains(buffer.getType())) {
+            tokens.add(buffer);
+            read();
+        }
+
+        return tokens.toArray(new Token[] {});
+    }
+
+    /**
+     * Reads from the stream until a token with a given type is encountered, excluding the stop token.
+     *
+     * @param type              the token type to stop at
+     * @return                  the list of tokens read
+     * @throws ParseException   if the end of the stream is reached
+     */
+    public Token[] readUpTo(TokenType type) throws ParseException {
+        return readUpToAnyOf(new TokenType[] {type});
+    }
+
+    /**
+     * Returns true if the end of the stream has been reached.
+     *
+     * @return  true if the end of the stream has been reached, otherwise false
+     */
+    public boolean isTerminal(){
+        return tryPeek() == null;
+    }
+
+    /**
+     * Discards all leading tokens of a specific type.
+     *
+     * @param type  the type of token to discard
+     */
+    public void discardLeading(TokenType type) {
+        Token buffer = tryPeek();
+        while (buffer != null && buffer.getType() == type) {
+            tryRead();
+            buffer = tryPeek();
+        }
     }
 }
