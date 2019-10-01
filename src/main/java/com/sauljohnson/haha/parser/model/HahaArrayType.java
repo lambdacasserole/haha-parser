@@ -3,6 +3,7 @@ package com.sauljohnson.haha.parser.model;
 import com.sauljohnson.haha.parser.ParseException;
 import com.sauljohnson.haha.parser.Token;
 import com.sauljohnson.haha.parser.TokenStream;
+import com.sauljohnson.haha.parser.TokenType;
 
 /**
  * Represents an array type.
@@ -29,14 +30,15 @@ public class HahaArrayType extends HahaType {
      */
     public static HahaArrayType parse(TokenStream tokenStream) throws ParseException {
 
-        // TODO: Parse exception must be thrown if stream is terminal!
+        // We should have an array token, then a square bracket.
+        tokenStream.readExpecting(TokenType.ARRAY);
+        tokenStream.readExpecting(TokenType.OPEN_BRACKET);
 
-        // TODO: We should have an array token, then a square bracket. Check this!
-        tokenStream.read();
-        tokenStream.read();
+        // Now comes the type.
+        Token typeToken = tokenStream.readExpecting(TokenType.TYPE);
 
-        Token typeToken = tokenStream.read(); // TODO: Here's the type. Check this!
-        tokenStream.read(); // TODO: Discard closing bracket. Check this!
+        // Now check the closing bracket.
+        tokenStream.readExpecting(TokenType.CLOSE_BRACKET);
 
         // Create and return array type.
         HahaArrayType output = new HahaArrayType();

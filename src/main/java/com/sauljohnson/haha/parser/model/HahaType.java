@@ -1,6 +1,7 @@
 package com.sauljohnson.haha.parser.model;
 
 import com.sauljohnson.haha.parser.ParseException;
+import com.sauljohnson.haha.parser.Token;
 import com.sauljohnson.haha.parser.TokenStream;
 import com.sauljohnson.haha.parser.TokenType;
 
@@ -25,12 +26,12 @@ public abstract class HahaType {
 
     public static HahaType parse(TokenStream tokenStream) throws ParseException {
 
-        // TODO: Parse exception must be thrown if stream is terminal!
-
-        if (tokenStream.peek().getType() == TokenType.ARRAY) {
-            return HahaArrayType.parse(tokenStream);
+        // Expect an array or scalar type.
+        Token buffer = tokenStream.peekExpectingOneOf(new TokenType[] {TokenType.TYPE, TokenType.ARRAY});
+        if (buffer.getType() == TokenType.ARRAY) {
+            return HahaArrayType.parse(tokenStream); // Parse array type.
         } else {
-            return HahaScalarType.parse(tokenStream);
+            return HahaScalarType.parse(tokenStream); // Parse scalar type.
         }
     }
 }

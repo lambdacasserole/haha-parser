@@ -50,8 +50,6 @@ public class Argument {
      */
     public static Argument parse(TokenStream tokenStream) throws ParseException {
 
-        // TODO: Parse exception must be thrown if stream is terminal!
-
         // Extract identifier.
         String identifier = tokenStream.read().getText();
 
