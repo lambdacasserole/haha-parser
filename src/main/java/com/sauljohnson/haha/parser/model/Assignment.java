@@ -57,6 +57,9 @@ public class Assignment extends Statement {
         Token id = tokenStream.readExpecting(TokenType.IDENTIFIER);
         String identifier = id.getText();
 
+        // TODO: Array assignments?
+        tokenStream.readExpecting(TokenType.ASSIGNMENT);
+
         // Read the rest of the expression.
         Token[] expression = tokenStream.readUpTo(TokenType.PUNCTUATOR);
 
