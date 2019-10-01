@@ -29,7 +29,7 @@ public class Function {
 
     private Token[][] statements;
 
-    private HahaBaseType returnType;
+    private HahaType returnType;
 
     /**
      * Gets the function identifier.
@@ -90,7 +90,7 @@ public class Function {
      *
      * @return  the identifier
      */
-    public HahaBaseType getReturnType() {
+    public HahaType getReturnType() {
         return returnType;
     }
 
@@ -109,24 +109,42 @@ public class Function {
         List<Argument> argumentsList = new LinkedList<Argument>();
         List<Variable> variablesList = new LinkedList<Variable>();
         List<Token[]> statementsList = new LinkedList<Token[]>();
-        HahaBaseType returnType;
+        HahaType returnType;
 
-        // Parse signature.
-        Token[] signature = tokenStream.readUntil(TokenType.PUNCTUATOR);
-        TokenStream signatureStream = new TokenStream(signature); // Open substream for signature.
-        Token[] buffer = signatureStream.readUntil(TokenType.OPEN_PARENTHESIS);
-        identifier = buffer[1].getText(); // TODO: Hard-coded index.
-        while (signatureStream.peek().getType() == TokenType.IDENTIFIER) { // Consume all arguments.
-            Argument argument = Argument.parse(signatureStream);
+        // Read in function keyword.
+        tokenStream.readExpecting(TokenType.FUNCTION);
+
+        // Now comes the identifier.
+        identifier = tokenStream.readExpecting(TokenType.IDENTIFIER).getText();
+
+        // Start of argument list.
+        tokenStream.readExpecting(TokenType.OPEN_PARENTHESIS);
+
+        // Consume any arguments.
+        while (tokenStream.peek().getType() == TokenType.IDENTIFIER) {
+            Argument argument = Argument.parse(tokenStream);
             argumentsList.add(argument);
+            if (tokenStream.peek().getType() != TokenType.CLOSE_PARENTHESIS) {
+                tokenStream.readExpecting(TokenType.COMMA); // Discard comma if not at end of arguments.
+            }
         }
-        // TODO: We should just have a colon and a return type now.
-        returnType = HahaBaseTypeHelper.parse(signature[signature.length - 1].getText()); // TODO: Hard-coded index.
+
+        // Closing parenthesis and colon before return type.
+        tokenStream.readExpecting(TokenType.CLOSE_PARENTHESIS);
+        tokenStream.readExpecting(TokenType.COLON);
+
+        // Parse return type.
+        returnType = HahaType.parse(tokenStream);
 
         // Read preconditions, postconditions and variables.
-        Token next;
-        while ((next = tokenStream.peek()).getType() != TokenType.BLOCK_BEGIN) {
-            switch(next.getType()) {
+        TokenType[] permittedTokenTypes = new TokenType[] {
+                TokenType.PRECONDITION,
+                TokenType.POSTCONDITION,
+                TokenType.VAR,
+                TokenType.BLOCK_BEGIN};
+        Token buffer;
+        while ((buffer = tokenStream.peekExpectingOneOf(permittedTokenTypes)).getType() != TokenType.BLOCK_BEGIN) {
+            switch(buffer.getType()) {
                 case PRECONDITION:
                     preconditionsList.add(Precondition.parse(tokenStream));
                     break;
@@ -134,28 +152,26 @@ public class Function {
                     postconditionsList.add(Postcondition.parse(tokenStream));
                     break;
                 case VAR:
-                    tokenStream.read(); // Discard keyword.
+                    tokenStream.readExpecting(TokenType.VAR); // Discard keyword.
                     while (tokenStream.peek().getType() == TokenType.IDENTIFIER) {
                         variablesList.add(Variable.parse(tokenStream));
                     }
                     break;
-                default:
-                    tokenStream.read();
-                    break;
             }
         }
 
-        // TODO: We should now be at a block begin.
+        // We should now be at a block begin.
+        tokenStream.readExpecting(TokenType.BLOCK_BEGIN);
 
         // Read in function body, being sensitive to blocks.
         int level = 0; // Track nesting level.
         do {
-            Token[] buf = tokenStream.readUntil(TokenType.PUNCTUATOR);
-            statementsList.add(buf);
-            if (buf.length > 0) {
-                if (buf[0].getType() == TokenType.BLOCK_END) {
+            Token[] statementBuffer = tokenStream.readUntil(TokenType.PUNCTUATOR);
+            statementsList.add(statementBuffer);
+            if (statementBuffer.length > 0) {
+                if (statementBuffer[0].getType() == TokenType.BLOCK_END) {
                     level--;
-                } else if (buf[0].getType() == TokenType.BLOCK_BEGIN) {
+                } else if (statementBuffer[0].getType() == TokenType.BLOCK_BEGIN) {
                     level++;
                 }
             }

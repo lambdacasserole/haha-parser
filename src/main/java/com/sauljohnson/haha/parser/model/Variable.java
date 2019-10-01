@@ -2,6 +2,7 @@ package com.sauljohnson.haha.parser.model;
 
 import com.sauljohnson.haha.parser.ParseException;
 import com.sauljohnson.haha.parser.TokenStream;
+import com.sauljohnson.haha.parser.TokenType;
 
 /**
  * Represents a variable.
@@ -51,7 +52,10 @@ public class Variable {
     public static Variable parse(TokenStream tokenStream) throws ParseException {
 
         // Extract identifier.
-        String identifier = tokenStream.read().getText();
+        String identifier = tokenStream.readExpecting(TokenType.IDENTIFIER).getText();
+
+        // Discard colon.
+        tokenStream.readExpecting(TokenType.COLON);
 
         // Extract type.
         HahaType type = HahaType.parse(tokenStream);

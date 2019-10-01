@@ -25,7 +25,7 @@ public class ConsecutiveTokenFilter implements TokenStreamTransformer {
                 output.add(next);
                 active = false;
             }
-        } while (stream.peek() != null);
+        } while (stream.tryPeek() != null);
         return new TokenStream(output.toArray(new Token[] {}));
     }
 }

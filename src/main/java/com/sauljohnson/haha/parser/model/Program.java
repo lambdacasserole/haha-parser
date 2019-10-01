@@ -73,7 +73,7 @@ public class Program {
 
         // Read in any top-level elements.
         Token token;
-        while ((token = tokenStream.peek()) != null) {
+        while ((token = tokenStream.tryPeek()) != null) {
             System.out.println("Read token: " + token.getText());
             switch(token.getType()) {
                 case FUNCTION:
