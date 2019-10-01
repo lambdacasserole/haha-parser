@@ -1,5 +1,6 @@
 package com.sauljohnson.haha.parser.model;
 
+import com.sauljohnson.haha.parser.ParseException;
 import com.sauljohnson.haha.parser.Token;
 import com.sauljohnson.haha.parser.TokenStream;
 
@@ -15,7 +16,7 @@ public class HahaScalarType extends HahaType {
         super();
     }
 
-    public static HahaScalarType parse(TokenStream tokenStream) {
+    public static HahaScalarType parse(TokenStream tokenStream) throws ParseException {
         Token tok = tokenStream.read();
         HahaScalarType output = new HahaScalarType();
         output.baseType = HahaBaseTypeHelper.parse(tok.getText());

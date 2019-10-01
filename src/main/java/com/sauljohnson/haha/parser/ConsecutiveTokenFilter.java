@@ -14,7 +14,7 @@ public class ConsecutiveTokenFilter implements TokenStreamTransformer {
         LinkedList<Token> output = new LinkedList<Token>();
         boolean active = false;
         do {
-            Token next = stream.read();
+            Token next = stream.tryRead();
             if (next.getType() == type) {
                 if (!active) {
                     output.add(next);

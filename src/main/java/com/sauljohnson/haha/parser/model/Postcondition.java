@@ -1,5 +1,6 @@
 package com.sauljohnson.haha.parser.model;
 
+import com.sauljohnson.haha.parser.ParseException;
 import com.sauljohnson.haha.parser.Token;
 import com.sauljohnson.haha.parser.TokenStream;
 import com.sauljohnson.haha.parser.TokenType;
@@ -37,7 +38,7 @@ public class Postcondition {
      * @param tokenStream   the token stream to read from
      * @return              the parsed result
      */
-    public static Postcondition parse(TokenStream tokenStream) {
+    public static Postcondition parse(TokenStream tokenStream) throws ParseException {
 
         // TODO: This is very minimal, because no translation language currently requires this structure.
 

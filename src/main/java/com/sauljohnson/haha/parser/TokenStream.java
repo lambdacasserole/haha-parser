@@ -31,8 +31,25 @@ public class TokenStream {
      *
      * @return  the next token from the token stream
      */
-    public Token read() {
+    public Token tryRead() {
         return position >= tokens.length ? null : tokens[position++];
+    }
+
+    public Token read() throws ParseException {
+        Token buffer = tryRead();
+        if (buffer == null) {
+            throw new ParseException("Parse error, unexpected end of token stream.", 0, 0); // TODO: Line and col.
+        }
+        return buffer;
+    }
+
+    public Token readExpecting(TokenType type) throws ParseException {
+        Token buffer = read();
+        if (buffer.getType() != type) {
+            throw new ParseException("Parse error, expected token of type " + type.name() + " but got "
+                    + buffer.getType().name() + " instead", buffer.getLine(), buffer.getColumn());
+        }
+        return buffer;
     }
 
     /**
@@ -46,11 +63,11 @@ public class TokenStream {
 
     public void discardLeadingPunctuators() {
         while (peek() != null && peek().getType() == TokenType.PUNCTUATOR) {
-            read();
+            tryRead();
         }
     }
 
-    public Token[] readUntilAnyOf(TokenType[] types) {
+    public Token[] readUntilAnyOf(TokenType[] types) throws ParseException {
         // We're going to return an array of tokens, build it here.
         List<Token> tokens = new LinkedList<Token>();
 
@@ -67,7 +84,11 @@ public class TokenStream {
         return tokens.toArray(new Token[] {});
     }
 
-    public Token[] readUntil(TokenType type)  {
+    public Token[] readUntil(TokenType type) throws ParseException {
         return readUntilAnyOf(new TokenType[] {type});
+    }
+
+    public boolean isTerminal() {
+        return peek() == null;
     }
 }

@@ -1,5 +1,6 @@
 package com.sauljohnson.haha.parser.model;
 
+import com.sauljohnson.haha.parser.ParseException;
 import com.sauljohnson.haha.parser.Token;
 import com.sauljohnson.haha.parser.TokenStream;
 
@@ -26,7 +27,9 @@ public class HahaArrayType extends HahaType {
      * @param tokenStream   the token stream to read from
      * @return              the parsed result
      */
-    public static HahaArrayType parse(TokenStream tokenStream) {
+    public static HahaArrayType parse(TokenStream tokenStream) throws ParseException {
+
+        // TODO: Parse exception must be thrown if stream is terminal!
 
         // TODO: We should have an array token, then a square bracket. Check this!
         tokenStream.read();

@@ -1,5 +1,6 @@
 package com.sauljohnson.haha.parser.model;
 
+import com.sauljohnson.haha.parser.ParseException;
 import com.sauljohnson.haha.parser.Token;
 import com.sauljohnson.haha.parser.TokenStream;
 import com.sauljohnson.haha.parser.TokenType;
@@ -99,7 +100,7 @@ public class Function {
      * @param tokenStream   the token stream to read from
      * @return              the parsed result
      */
-    public static Function parse(TokenStream tokenStream) {
+    public static Function parse(TokenStream tokenStream) throws ParseException {
 
         // Information to capture from the token stream.
         String identifier;

@@ -128,6 +128,10 @@ public class HahaTokenizer implements Tokenizer {
         String remaining = source;
         while (remaining != null && !remaining.equals(""))
         {
+            // Track position in text.
+            int line = getLinePosition(source, remaining);
+            int column = getColumnPosition(source, remaining);
+
             // Try to match each template against start of input.
             boolean matches = false;
             for (TokenTemplate tokenTemplate : tokenTemplates)
@@ -137,7 +141,7 @@ public class HahaTokenizer implements Tokenizer {
                 {
                     // Add token of matching type.
                     if (!tokenTemplate.isIgnored()) {
-                        tokens.add(new Token(matcher.group(), tokenTemplate.getType()));
+                        tokens.add(new Token(matcher.group(), tokenTemplate.getType(), line, column));
                     }
 
                     // Trim string from beginning of source.
@@ -150,8 +154,6 @@ public class HahaTokenizer implements Tokenizer {
             // Unexpected character encountered.
             if (!matches)
             {
-                int line = getLinePosition(source, remaining);
-                int column = getColumnPosition(source, remaining);
                 char character = remaining.charAt(0);
                 throw new TokenizationException("Unexpected character '" + character + "' at line "+ line + " column" +
                         " " + column + ".", line, column);

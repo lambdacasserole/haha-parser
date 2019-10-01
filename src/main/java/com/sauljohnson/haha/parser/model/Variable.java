@@ -1,5 +1,6 @@
 package com.sauljohnson.haha.parser.model;
 
+import com.sauljohnson.haha.parser.ParseException;
 import com.sauljohnson.haha.parser.TokenStream;
 
 /**
@@ -47,7 +48,7 @@ public class Variable {
      * @param tokenStream   the token stream to read from
      * @return              the parsed result
      */
-    public static Variable parse(TokenStream tokenStream) {
+    public static Variable parse(TokenStream tokenStream) throws ParseException {
 
         // Extract identifier.
         String identifier = tokenStream.read().getText();

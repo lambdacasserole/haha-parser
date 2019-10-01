@@ -1,8 +1,7 @@
 package com.sauljohnson.haha.parser.model;
 
-import com.sauljohnson.haha.parser.Token;
+import com.sauljohnson.haha.parser.ParseException;
 import com.sauljohnson.haha.parser.TokenStream;
-import com.sauljohnson.haha.parser.TokenType;
 
 /**
  * Represents an argument.
@@ -10,6 +9,7 @@ import com.sauljohnson.haha.parser.TokenType;
  * @since 26/09/19
  * @author Saul Johnson <saul.a.johnson@gmail.com>
  */
+@SuppressWarnings({"unused"}) // API class.
 public class Argument {
 
     private String identifier;
@@ -48,7 +48,9 @@ public class Argument {
      * @param tokenStream   the token stream to read from
      * @return              the parsed result
      */
-    public static Argument parse(TokenStream tokenStream) {
+    public static Argument parse(TokenStream tokenStream) throws ParseException {
+
+        // TODO: Parse exception must be thrown if stream is terminal!
 
         // Extract identifier.
         String identifier = tokenStream.read().getText();

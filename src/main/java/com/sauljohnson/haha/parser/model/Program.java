@@ -1,5 +1,6 @@
 package com.sauljohnson.haha.parser.model;
 
+import com.sauljohnson.haha.parser.ParseException;
 import com.sauljohnson.haha.parser.Token;
 import com.sauljohnson.haha.parser.TokenStream;
 
@@ -63,7 +64,7 @@ public class Program {
      * @param tokenStream   the token stream to read from
      * @return              the parsed result
      */
-    public static Program parse(TokenStream tokenStream) {
+    public static Program parse(TokenStream tokenStream) throws ParseException {
 
         // Prepare lists to hold top-level constructs.
         List<Function> functionsList = new LinkedList<Function>();

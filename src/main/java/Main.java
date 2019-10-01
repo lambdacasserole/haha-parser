@@ -17,6 +17,8 @@ public class Main {
             e.printStackTrace();
         } catch (TokenizationException e) {
             e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 }
