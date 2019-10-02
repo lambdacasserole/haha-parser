@@ -84,3 +84,13 @@ public class QuickHahaParserTest {
 This parser is currently subject to some limitations:
 * Parsing does not descend all the way to the expression level. Conditional/loop predicates and the right-hand side of assignments are all left unparsed.
 * Predicates, axioms, invariants, preconditions, and postconditions are left unparsed.
+
+## Contributing
+For most intents and purposes, this project is considered to fulfil its original use case. Bug fixes and suggestions are welcome, however, from any member of the community.
+
+## Acknowledgements
+A big thank you to the team at the [University of Warsaw](https://mimuw.edu.pl/en) behind [HAHA](http://haha.mimuw.edu.pl/). This really is an awesome tool for teaching software verification! By name, they're:
+* [Tadeusz Sznuk](http://www.mimuw.edu.pl/~tsznuk/)
+* Jacek Chrząszcz
+* [Aleksy Schubert](http://www.mimuw.edu.pl/~alx/)
+* Jakub Zakrzewski
