@@ -6,6 +6,30 @@ This is a from-scratch implementation of a parser for the language of the [Hoare
 
 This parser is primarily aimed at the transpilation of simple HAHA program to other languages (such as Java, C, C++ etc.) and is therefore currently missing many features.
 
+## Installation
+You can pull this package into your Maven project straight from here using JitPack. Add JitPack as a repository first:
+
+```
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+```
+
+Then add this project as a dependency:
+
+```
+<dependencies>
+    <dependency>
+        <groupId>com.github.lambdacasserole</groupId>
+        <artifactId>haha-parser</artifactId>
+        <version>v1.0</version>
+    </dependency>
+</dependencies>
+```
+
 ## Limitations
 This parser is currently subject to some limitations:
 * Parsing does not descend all the way to the expression level. Conditional/loop predicates and the right-hand side of assignments are all left unparsed.
