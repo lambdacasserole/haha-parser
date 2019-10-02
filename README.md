@@ -32,7 +32,65 @@ Then add this project as a dependency:
 </dependencies>
 ```
 
+## Quickstart
+See below for some code that'll get you started quite quickly parsing HAHA code.
+
+```java
+import java.io.File;
+import java.io.IOException;
+
+import com.sauljohnson.haha.parser.*;
+import com.sauljohnson.haha.parser.model.Program;
+
+import org.apache.commons.io.FileUtils;
+
+public class QuickHahaParserTest {
+
+    /**
+     * The application entry point.
+     *
+     * @param args the command-line arguments to the application
+     */
+    public static void main(String[] args) {
+        try {
+            // Read in source code.
+            String source = FileUtils.readFileToString(new File("my_file.haha"));
+            
+            // Tokenize source.
+            Tokenizer tokenizer = new HahaTokenizer();
+            Token[] tokens = tokenizer.tokenize(source);
+            
+            // Filter out empty statements (i.e. consecutive punctuators).
+            TokenStreamTransformer emptyStatementFilter = new ConsecutiveTokenFilter(TokenType.PUNCTUATOR);
+            TokenStream tokenStream = emptyStatementFilter.transform(new TokenStream(tokens));
+            
+            // Parse program.
+            Program result = Program.parse(streamTransformer.transform(tokenStream));
+            
+            // TODO: Interact with the resulting parse tree here.
+        } catch (IOException e) {
+            e.printStackTrace(); // File read error.
+        } catch (TokenizationException e) {
+            e.printStackTrace(); // Tokenizer error.
+        } catch (ParseException e) {
+            e.printStackTrace(); // Parser error.
+        }
+    }
+}
+
+```
+
 ## Limitations
 This parser is currently subject to some limitations:
 * Parsing does not descend all the way to the expression level. Conditional/loop predicates and the right-hand side of assignments are all left unparsed.
 * Predicates, axioms, invariants, preconditions, and postconditions are left unparsed.
+
+## Contributing
+For most intents and purposes, this project is considered to fulfil its original use case. Bug fixes and suggestions are welcome, however, from any member of the community.
+
+## Acknowledgements
+A big thank you to the team at the [University of Warsaw](https://mimuw.edu.pl/en) behind [HAHA](http://haha.mimuw.edu.pl/). This really is an awesome tool for teaching software verification! By name, they're:
+* [Tadeusz Sznuk](http://www.mimuw.edu.pl/~tsznuk/)
+* Jacek Chrząszcz
+* [Aleksy Schubert](http://www.mimuw.edu.pl/~alx/)
+* Jakub Zakrzewski
