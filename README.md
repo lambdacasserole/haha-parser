@@ -8,6 +8,5 @@ This parser is primarily aimed at the transpilation of simple HAHA program to ot
 
 ## Limitations
 This parser is currently subject to some limitations:
-* Assignment to arrays is currently unsupported. Attempting to assign to an array index will throw a parse error.
 * Parsing does not descend all the way to the expression level. Conditional/loop predicates and the right-hand side of assignments are all left unparsed.
 * Predicates, axioms, invariants, preconditions, and postconditions are left unparsed.
