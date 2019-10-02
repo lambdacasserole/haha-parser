@@ -6,22 +6,22 @@ import com.sauljohnson.haha.parser.TokenStream;
 import com.sauljohnson.haha.parser.TokenType;
 
 /**
- * Represents an assignment.
+ * Represents an abstract assignment.
  *
  * @since 01/10/19
  * @author Saul Johnson <saul.a.johnson@gmail.com>
  */
-@SuppressWarnings({"unused"}) // API class.
-public class Assignment extends Statement {
+@SuppressWarnings({"WeakerAccess", "unused"}) // API class.
+public abstract class Assignment extends Statement {
 
-    private String identifier;
+    protected String identifier;
 
-    private Token[] expression;
+    protected Token[] expression;
 
     /**
      * Initialises a new instance of an assignment.
      */
-    private Assignment() {
+    protected Assignment() {
         identifier = null;
         expression = new Token[] {};
     }
@@ -53,23 +53,20 @@ public class Assignment extends Statement {
      */
     public static Assignment parse(TokenStream tokenStream) throws ParseException {
 
-        // Read identifier.
-        Token id = tokenStream.readExpecting(TokenType.IDENTIFIER);
-        String identifier = id.getText();
+        // Read in identifier.
+        String identifier = tokenStream.readExpecting(TokenType.IDENTIFIER).getText();
 
-        // TODO: Array assignments?
-        tokenStream.readExpecting(TokenType.ASSIGNMENT);
-
-        // Read the rest of the expression.
-        Token[] expression = tokenStream.readUpTo(TokenType.PUNCTUATOR);
-
-        // Discard punctuator.
-        tokenStream.readExpecting(TokenType.PUNCTUATOR);
-
-        // Create and return assignment.
-        Assignment output = new Assignment();
-        output.identifier = identifier;
-        output.expression = expression;
+        // Scalar assignment or array assignment?
+        Assignment output = null;
+        Token buffer = tokenStream.peekExpectingOneOf(new TokenType[] {TokenType.ASSIGNMENT, TokenType.OPEN_BRACKET});
+        switch(buffer.getType()) {
+            case ASSIGNMENT:
+                output = ScalarAssignment.parse(identifier, tokenStream);
+                break;
+            case OPEN_BRACKET:
+                output = ArrayAssignment.parse(identifier, tokenStream);
+                break;
+        }
         return output;
     }
 }
