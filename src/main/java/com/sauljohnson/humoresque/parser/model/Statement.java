@@ -41,7 +41,7 @@ public abstract class Statement implements ProgramComponent {
         Statement output = null;
         switch(buffer.getType()) {
             case IDENTIFIER:
-                output = parse(tokenStream); // An identifier means an assignment.
+                output = Assignment.parse(tokenStream); // An identifier means an assignment.
                 break;
             case BLOCK_BEGIN:
                 output = Block.parse(tokenStream); // A block begin means a block.
