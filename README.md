@@ -27,7 +27,7 @@ Then add this project as a dependency:
     <dependency>
         <groupId>com.github.lambdacasserole</groupId>
         <artifactId>haha-parser</artifactId>
-        <version>v1.0</version>
+        <version>v1.2</version>
     </dependency>
 </dependencies>
 ```
