@@ -56,9 +56,9 @@ public abstract class HahaType {
         // Expect an array or scalar type.
         Token buffer = tokenStream.peekExpectingOneOf(new TokenType[] {TokenType.TYPE, TokenType.ARRAY});
         if (buffer.getType() == TokenType.ARRAY) {
-            return parse(tokenStream); // Parse array type.
+            return HahaArrayType.parse(tokenStream); // Parse array type.
         } else {
-            return parse(tokenStream); // Parse scalar type.
+            return HahaScalarType.parse(tokenStream); // Parse scalar type.
         }
     }
 }
