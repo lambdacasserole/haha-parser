@@ -8,5 +8,6 @@ package com.sauljohnson.humoresque.parser.model;
  */
 public enum ProgramComponentType {
     ANNOTATION,
-    STATEMENT
+    STATEMENT,
+    SKIP
 }

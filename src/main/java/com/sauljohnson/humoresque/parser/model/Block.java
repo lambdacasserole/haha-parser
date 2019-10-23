@@ -51,10 +51,16 @@ public class Block extends Statement {
 
         // Read until block end.
         while (tokenStream.peek().getType() != TokenType.BLOCK_END) {
-            if (tokenStream.peek().getType() == TokenType.OPEN_BRACE) {
-                programComponents.add(Annotation.parse(tokenStream)); // An open brace indicates annotation.
-            } else {
-                programComponents.add(Statement.parse(tokenStream)); // Anything else is a statement.
+            switch (tokenStream.peek().getType()) {
+                case OPEN_BRACE:
+                    programComponents.add(Annotation.parse(tokenStream)); // An open brace indicates annotation.
+                    break;
+                case SKIP:
+                    programComponents.add(new Skip()); // A skip is a special class of statement.
+                    break;
+                default:
+                    programComponents.add(Statement.parse(tokenStream)); // Anything else is a statement.
+                    break;
             }
         }
 

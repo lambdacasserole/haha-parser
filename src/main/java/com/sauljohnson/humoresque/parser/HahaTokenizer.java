@@ -68,7 +68,7 @@ public class HahaTokenizer implements Tokenizer {
             new TokenTemplate("\\^", TokenType.POWER),
             new TokenTemplate("∀|\\bforall\\b", TokenType.FORALL),
             new TokenTemplate("∃|\\bexists\\b", TokenType.EXISTS),
-            new TokenTemplate("\\bskip\\b", TokenType.SKIP, true),
+            new TokenTemplate("\\bskip\\b", TokenType.SKIP),
             // Free-form identifiers and integers.
             new TokenTemplate("\\b[0-9]+\\b", TokenType.INTEGER),
             new TokenTemplate("\\b[a-zA-Z_]\\w*\\b", TokenType.IDENTIFIER),
