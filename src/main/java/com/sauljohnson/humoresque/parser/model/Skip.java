@@ -23,7 +23,7 @@ public class Skip implements ProgramComponent {
     }
 
     /**
-     * Gets the tokens comprising this annotation.
+     * Gets the tokens comprising this skip.
      *
      * @return  the tokens.
      */
@@ -49,7 +49,7 @@ public class Skip implements ProgramComponent {
 
         // TODO: This is very minimal, because no translation language currently requires this structure.
 
-        // Create and return annotation.
+        // Create and return skip.
         Skip output = new Skip();
         output.tokens = tokenStream.readPast(TokenType.SKIP); // Read in skip.
         tokenStream.readExpecting(TokenType.PUNCTUATOR); // Discard punctuator.
