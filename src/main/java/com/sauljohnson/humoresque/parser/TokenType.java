@@ -58,4 +58,5 @@ public enum TokenType {
     LINE_COMMENT,
     STREAM_COMMENT,
     VAR,
+    SKIP,
 }

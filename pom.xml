@@ -6,7 +6,7 @@
 
     <groupId>com.sauljohnson.humoresque</groupId>
     <artifactId>parser</artifactId>
-    <version>1.2</version>
+    <version>1.4</version>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
