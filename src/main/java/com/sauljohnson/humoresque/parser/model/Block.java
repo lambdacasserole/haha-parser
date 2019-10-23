@@ -56,7 +56,7 @@ public class Block extends Statement {
                     programComponents.add(Annotation.parse(tokenStream)); // An open brace indicates annotation.
                     break;
                 case SKIP:
-                    programComponents.add(new Skip()); // A skip is a special class of statement.
+                    programComponents.add(Skip.parse(tokenStream)); // A skip is a special class of statement.
                     break;
                 default:
                     programComponents.add(Statement.parse(tokenStream)); // Anything else is a statement.

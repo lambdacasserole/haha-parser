@@ -1,5 +1,10 @@
 package com.sauljohnson.humoresque.parser.model;
 
+import com.sauljohnson.humoresque.parser.ParseException;
+import com.sauljohnson.humoresque.parser.Token;
+import com.sauljohnson.humoresque.parser.TokenStream;
+import com.sauljohnson.humoresque.parser.TokenType;
+
 /**
  * Represents a skip.
  *
@@ -8,10 +13,46 @@ package com.sauljohnson.humoresque.parser.model;
  */
 public class Skip implements ProgramComponent {
 
+    private Token[] tokens;
+
+    /**
+     * Initializes a new instance of a skip.
+     */
+    private Skip() {
+        tokens = new Token[] {};
+    }
+
+    /**
+     * Gets the tokens comprising this annotation.
+     *
+     * @return  the tokens.
+     */
+    public Token[] getTokens() {
+        return tokens;
+    }
+
     /**
      * @inheritDoc
      */
     public ProgramComponentType getType() {
         return ProgramComponentType.SKIP;
+    }
+
+    /**
+     * Reads the tokens comprising a skip from the given token stream and returns the parsed result.
+     *
+     * @param tokenStream       the token stream to read from
+     * @return                  the parsed result
+     * @throws ParseException   if parsing fails
+     */
+    public static Skip parse(TokenStream tokenStream) throws ParseException {
+
+        // TODO: This is very minimal, because no translation language currently requires this structure.
+
+        // Create and return annotation.
+        Skip output = new Skip();
+        output.tokens = tokenStream.readPast(TokenType.SKIP); // Read in skip.
+        tokenStream.readExpecting(TokenType.PUNCTUATOR); // Discard punctuator.
+        return output;
     }
 }
