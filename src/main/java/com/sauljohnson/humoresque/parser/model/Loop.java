@@ -27,6 +27,7 @@ public class Loop extends Statement {
      * Initialises a new instance of a loop.
      */
     private Loop() {
+        super(StatementType.LOOP);
         predicate = new Token[] {};
         invariants = new Invariant[] {};
         statement = null;

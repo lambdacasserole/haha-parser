@@ -11,12 +11,33 @@ import com.sauljohnson.humoresque.parser.TokenType;
  * @since 01/10/19
  * @author Saul Johnson <saul.a.johnson@gmail.com>
  */
+@SuppressWarnings({"unused", "WeakerAccess"}) // API class.
 public abstract class Statement implements ProgramComponent {
+
+    private StatementType statementType;
+
+    /**
+     * Abstract constructor for a new instance of a statement.
+     *
+     * @param statementType the statement type
+     */
+    protected Statement(StatementType statementType) {
+        this.statementType = statementType;
+    }
+
+    /**
+     * Gets the type of this statement.
+     *
+     * @return  the type of this statement
+     */
+    public StatementType getStatementType() {
+        return statementType;
+    }
 
     /**
      * @inheritDoc
      */
-    public ProgramComponentType getType() {
+    public ProgramComponentType getProgramComponentType() {
         return ProgramComponentType.STATEMENT;
     }
 

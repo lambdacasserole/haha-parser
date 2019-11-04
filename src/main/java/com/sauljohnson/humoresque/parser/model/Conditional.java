@@ -24,6 +24,7 @@ public class Conditional extends Statement {
      * Initialises a new instance of a conditional.
      */
     private Conditional() {
+        super(StatementType.CONDITIONAL);
         predicate = new Token[] {};
         trueArm = null;
         falseArm = null;

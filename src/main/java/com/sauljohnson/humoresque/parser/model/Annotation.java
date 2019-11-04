@@ -35,7 +35,7 @@ public class Annotation implements ProgramComponent {
     /**
      * @inheritDoc
      */
-    public ProgramComponentType getType() {
+    public ProgramComponentType getProgramComponentType() {
         return ProgramComponentType.ANNOTATION;
     }
 

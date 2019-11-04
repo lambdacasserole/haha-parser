@@ -22,6 +22,7 @@ public class Block extends Statement {
      * Initialises a new instance of a block.
      */
     private Block() {
+        super(StatementType.BLOCK);
         programComponents = new ProgramComponent[] {};
     }
 

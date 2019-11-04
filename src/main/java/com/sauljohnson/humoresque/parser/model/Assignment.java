@@ -18,12 +18,34 @@ public abstract class Assignment extends Statement {
 
     protected Token[] expression;
 
+    private boolean isArrayAssignment;
+
     /**
-     * Initialises a new instance of an assignment.
+     * Abstract constructor for a new instance of an assignment.
+     *
+     * @param isArrayAssignment whether or not this is an array assignment
      */
-    protected Assignment() {
+    protected Assignment(boolean isArrayAssignment) {
+        super(StatementType.ASSIGNMENT);
         identifier = null;
         expression = new Token[] {};
+        this.isArrayAssignment = isArrayAssignment;
+    }
+
+    /**
+     * Abstract constructor for a new instance of an assignment.
+     */
+    protected Assignment() {
+        this(false);
+    }
+
+    /**
+     * Gets whether or not this is an array assignment.
+     *
+     * @return  whether or not this is an array assignment
+     */
+    public boolean getIsArrayAssignment() {
+        return isArrayAssignment;
     }
 
     /**

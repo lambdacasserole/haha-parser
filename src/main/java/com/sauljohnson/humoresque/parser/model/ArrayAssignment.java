@@ -20,7 +20,7 @@ public class ArrayAssignment extends Assignment {
      * Initialises a new instance of an assignment to an array index.
      */
     private ArrayAssignment() {
-        super();
+        super(true);
         index = new Token[] {};
     }
 

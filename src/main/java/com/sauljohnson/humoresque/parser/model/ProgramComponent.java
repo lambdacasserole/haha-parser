@@ -13,5 +13,5 @@ public interface ProgramComponent {
      *
      * @return  the type
      */
-    ProgramComponentType getType();
+    ProgramComponentType getProgramComponentType();
 }
